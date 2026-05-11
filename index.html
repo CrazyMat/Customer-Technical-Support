@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CustomerFirst & SecondLanguage</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-soft: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #22c55e;
+      --warn: #f59e0b;
+      --border: #334155;
+      --shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, #020617, #0f172a 55%, #111827);
+      line-height: 1.55;
+    }
+
+    a { color: var(--primary); }
+
+    .container {
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 2rem 0 1.25rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(2, 6, 23, 0.72);
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      font-size: 1.15rem;
+    }
+
+    .brand span { color: var(--primary); }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid transparent;
+      padding: 0.45rem 0.7rem;
+      border-radius: 0.55rem;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      border-color: var(--primary);
+      color: #fff;
+      outline: none;
+    }
+
+    main { padding: 2.2rem 0 4rem; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.78), rgba(17, 24, 39, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1rem;
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3 { line-height: 1.2; margin-top: 0; }
+
+    h1 { font-size: clamp(1.75rem, 2.8vw, 2.7rem); }
+
+    .lead { color: #dbeafe; font-size: 1.05rem; }
+    .muted { color: var(--muted); }
+
+    .pill {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin: 0.2rem;
+      font-size: 0.83rem;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .service-list, .value-list {
+      margin: 0;
+      padding-left: 1rem;
+    }
+
+    .service-list li, .value-list li { margin: 0.45rem 0; }
+
+    .switch-panels {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .switch-box {
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      padding: 1rem;
+      background: var(--panel);
+    }
+
+    .switch-box button {
+      width: 100%;
+      padding: 0.75rem;
+      border: 0;
+      border-radius: 0.65rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: #082f49; }
+    .btn-primary:hover { filter: brightness(1.05); }
+
+    .btn-accent { background: var(--accent); color: #052e16; }
+    .btn-accent:hover { filter: brightness(1.05); }
+
+    .panel { display: none; margin-top: 1rem; }
+    .panel.active { display: block; }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem 1rem;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #dbeafe;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: #020617;
+      color: #e2e8f0;
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      padding: 0.62rem 0.7rem;
+      font: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid rgba(56, 189, 248, 0.5);
+      border-color: var(--primary);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    .contact-methods {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-item {
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 0.7rem;
+      padding: 0.8rem;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .submit {
+      border: 0;
+      border-radius: 0.65rem;
+      background: var(--warn);
+      color: #1c1917;
+      font-weight: 800;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 1.7rem;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2, .switch-panels, .contact-methods, form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">Customer<span>First</span> &amp; SecondLanguage</div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#second-language">SecondLanguage</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="about">
+      <article class="card">
+        <h1>CustomerFirst - A New Approach to Customer Service</h1>
+        <p class="lead">Professional, empathetic, and practical support focused on your priorities, your schedule, and real outcomes.</p>
+        <p>With extensive hands-on support experience across networking, devices, software troubleshooting, fraud risk advisory, and compliance-sensitive environments, CustomerFirst delivers personalized guidance built around trust and clarity.</p>
+        <div>
+          <span class="pill">Technical Support</span>
+          <span class="pill">Fraud Risk Advisory</span>
+          <span class="pill">Windows, Android, Linux</span>
+          <span class="pill">GDPR-Aware Service</span>
+          <span class="pill">PECR / DPA 2018 Context</span>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2>Core Values</h2>
+        <ul class="value-list">
+          <li>Your priorities are our top priority.</li>
+          <li>We respect your time with efficient, effective support.</li>
+          <li>We adapt to your schedule and preferred contact method.</li>
+          <li>We provide clear, professional, and personalized next steps.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="grid-2" id="services">
+      <article class="card">
+        <h2>CustomerFirst Services</h2>
+        <ul class="service-list">
+          <li>Technical support for routers, switches, chargers, software, and devices.</li>
+          <li>Installation and configuration guidance for home and business users.</li>
+          <li>Fraud risk awareness and safer digital decision support.</li>
+          <li>Organization, itinerary planning, and personal assistant services.</li>
+          <li>Translation and communication support as needed.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="second-language">
+        <h2>Partner Company: SecondLanguage</h2>
+        <p>Affordable, personalized English teaching for foreigners led by a certified CELTA-qualified teacher fluent in native English, Latvian, and German.</p>
+        <p class="muted">Click the SecondLanguage box below to go directly to the dedicated inquiry form.</p>
+      </article>
+    </section>
+
+    <section class="switch-panels">
+      <div class="switch-box">
+        <h3>Need customer support?</h3>
+        <p class="muted">General technical, fraud awareness, planning, or assistant services.</p>
+        <button class="btn-primary" type="button" onclick="showPanel('customer-panel')">Open CustomerFirst Contact</button>
+      </div>
+
+      <div class="switch-box">
+        <h3>Interested in English lessons?</h3>
+        <p class="muted">Personalized consultations and tailored English learning plans.</p>
+        <button class="btn-accent" type="button" onclick="showPanel('language-panel')">Open SecondLanguage Contact</button>
+      </div>
+    </section>
+
+    <section class="card" id="contact">
+      <div id="customer-panel" class="panel active" aria-live="polite">
+        <h2>Contact CustomerFirst</h2>
+
+        <div class="contact-methods">
+          <div class="contact-item">
+            <strong>Email</strong>
+            <p><a href="mailto:info@customerfirst.example">info@customerfirst.example</a></p>
+          </div>
+          <div class="contact-item">
+            <strong>Phone</strong>
+            <p><a href="tel:+10000000000">+1 (000) 000-0000</a></p>
+          </div>
+          <div class="contact-item">
+            <strong>Hours</strong>
+            <p>Flexible by appointment - adapted to customer availability.</p>
+          </div>
+        </div>
+
+        <form action="#" method="post">
+          <div>
+            <label for="cf-name">Full Name</label>
+            <input id="cf-name" name="full_name" type="text" required />
+          </div>
+          <div>
+            <label for="cf-email">Email Address</label>
+            <input id="cf-email" name="email" type="email" required />
+          </div>
+          <div>
+            <label for="cf-phone">Phone Number</label>
+            <input id="cf-phone" name="phone" type="tel" />
+          </div>
+          <div>
+            <label for="cf-contact-preference">Preferred Contact Method</label>
+            <select id="cf-contact-preference" name="contact_preference" required>
+              <option value="">Please select</option>
+              <option>Email</option>
+              <option>Phone</option>
+              <option>Video Call</option>
+              <option>Messaging App</option>
+              <option>Other (add details below)</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="cf-issue">How can we help?</label>
+            <textarea id="cf-issue" name="issue" placeholder="Describe your issue, goals, and any urgency."></textarea>
+          </div>
+          <div class="full">
+            <label for="cf-other">If you prefer another contact method, please specify</label>
+            <input id="cf-other" name="other_method" type="text" placeholder="e.g., WhatsApp, Signal, specific callback window" />
+          </div>
+          <div class="full submit-row">
+            <small class="muted">Form is ready for backend integration (email service / CRM endpoint).</small>
+            <button class="submit" type="submit">Send Inquiry</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="language-panel" class="panel" aria-live="polite">
+        <h2>Contact SecondLanguage</h2>
+
+        <div class="contact-methods">
+          <div class="contact-item">
+            <strong>Email</strong>
+            <p><a href="mailto:hello@secondlanguage.example">hello@secondlanguage.example</a></p>
+          </div>
+          <div class="contact-item">
+            <strong>Phone</strong>
+            <p><a href="tel:+10000000001">+1 (000) 000-0001</a></p>
+          </div>
+          <div class="contact-item">
+            <strong>Free Initial Consultation</strong>
+            <p>Share 3 date/time options and we will confirm the best slot.</p>
+          </div>
+        </div>
+
+        <form action="#" method="post">
+          <div>
+            <label for="sl-name">Full Name</label>
+            <input id="sl-name" name="full_name" type="text" required />
+          </div>
+          <div>
+            <label for="sl-email">Email Address</label>
+            <input id="sl-email" name="email" type="email" required />
+          </div>
+          <div>
+            <label for="sl-level">Current English Level</label>
+            <select id="sl-level" name="english_level" required>
+              <option value="">Please select</option>
+              <option>Beginner (A1)</option>
+              <option>Elementary (A2)</option>
+              <option>Intermediate (B1)</option>
+              <option>Upper Intermediate (B2)</option>
+              <option>Advanced (C1+)</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+          <div>
+            <label for="sl-language">Preferred Language for Communication</label>
+            <input id="sl-language" name="preferred_language" type="text" placeholder="Any language accepted" />
+          </div>
+          <div class="full">
+            <label for="sl-reason">Why would you like to learn English?</label>
+            <textarea id="sl-reason" name="reason_for_learning" required placeholder="Career, travel, university, relocation, confidence, etc."></textarea>
+          </div>
+          <div class="full">
+            <label for="sl-q1">Question 1 (Simple): Introduce yourself in English (or any language if needed)</label>
+            <textarea id="sl-q1" name="assessment_q1" required></textarea>
+          </div>
+          <div class="full">
+            <label for="sl-q2">Question 2 (Intermediate): Describe a challenge you solved recently and how you solved it.</label>
+            <textarea id="sl-q2" name="assessment_q2" required></textarea>
+          </div>
+          <div class="full">
+            <label for="sl-q3">Question 3 (Upper Intermediate): What goals do you hope to achieve in six months, and what support do you need to reach them?</label>
+            <textarea id="sl-q3" name="assessment_q3" required></textarea>
+          </div>
+          <div>
+            <label for="slot-1">Consultation Option 1</label>
+            <input id="slot-1" name="consultation_slot_1" type="datetime-local" required />
+          </div>
+          <div>
+            <label for="slot-2">Consultation Option 2</label>
+            <input id="slot-2" name="consultation_slot_2" type="datetime-local" required />
+          </div>
+          <div>
+            <label for="slot-3">Consultation Option 3</label>
+            <input id="slot-3" name="consultation_slot_3" type="datetime-local" required />
+          </div>
+          <div class="full submit-row">
+            <small class="muted">Please answer in English as best as you can. Any language is welcome.</small>
+            <button class="submit" type="submit">Send Lesson Inquiry</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <p><strong>CustomerFirst</strong> and <strong>SecondLanguage</strong> are committed to ethical, customer-centered support and transparent communication.</p>
+      <p class="muted">© <span id="year"></span> CustomerFirst / SecondLanguage. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script>
+    function showPanel(panelId) {
+      const panels = document.querySelectorAll('.panel');
+      panels.forEach(panel => panel.classList.remove('active'));
+      const target = document.getElementById(panelId);
+      if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
